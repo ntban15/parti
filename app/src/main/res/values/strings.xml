@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Parti</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="edit_msg_hint">Share your experience...</string>
+    <string name="send_message">Send a message...</string>
+    <string name="find_parties">Find parties</string>
+    <string name="host">Host</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">sign in</string>
+    <string name="sign_up">Create an account</string>
+    <string name="find_friends_near_you">Find friends near you</string>
+    <string name="next">next</string>
+    <string name="your_name">Your name</string>
+    <string name="user_name">User name</string>
+    <string name="finish">Finish</string>
+    <string name="create_memorable_name">Create a memorable name!</string>
+    <string name="sign_out">Sign out</string>
+    <string name="join_party">Join party</string>
+    <string name="sent_by">Sent by %s</string>
+    <string name="leave_party">Leave party</string>
+</resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "279433910388",
+    "firebase_url": "https://parti-171306.firebaseio.com",
+    "project_id": "parti-171306",
+    "storage_bucket": "parti-171306.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279433910388:android:91464f6a9d95985e",
+        "android_client_info": {
+          "package_name": "com.annguyen.android.parti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279433910388-3tcf3m78283hor95liobvc7arvsm852c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.annguyen.android.parti",
+            "certificate_hash": "947ffc60d418f536631f98aeb4f1783923c2a93c"
+          }
+        },
+        {
+          "client_id": "279433910388-7l4esv46rcf0qkffgqa70hql9lqn2k4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt2IfcAZiu6PWirL6eh0R9LHZnmVAMaBQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279433910388-7l4esv46rcf0qkffgqa70hql9lqn2k4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
