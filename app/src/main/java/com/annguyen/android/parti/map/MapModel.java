@@ -6,4 +6,6 @@ package com.annguyen.android.parti.map;
 
 public interface MapModel {
     void getParties(double lat, double lng);
+
+    void getDirection(double currentLat, double currentLng, double latitude, double longitude);
 }

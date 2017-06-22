@@ -1,6 +1,7 @@
 package com.annguyen.android.parti.map.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentActivity;
@@ -19,12 +20,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +50,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     NestedScrollView mapBottomSheet;
     @BindView(R.id.map_progress_bar)
     ProgressBar mapProgressBar;
+    @BindView(R.id.map_get_direction_btn)
+    Button mapGetDirectionBtn;
 
+    Polyline lastPolyline = null;
     private double currentLat;
     private double currentLng;
 
@@ -102,11 +109,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+    @SuppressWarnings("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_retro_style));
+        mMap.setMyLocationEnabled(true);
 
         //ready the map for use
         presenter.onMapReady();
@@ -116,9 +126,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    public void drawPolyline(PolylineOptions polylineOptions) {
+        lastPolyline = mMap.addPolyline(polylineOptions
+                .width(18)
+                .color(Color.parseColor("#ff6e40"))
+                .jointType(JointType.ROUND)
+                .startCap(new RoundCap())
+                .endCap(new RoundCap()));
+    }
+
+    @Override
+    public void removeLastPolyline() {
+        if (lastPolyline != null)
+            lastPolyline.remove();
+    }
+
+    @Override
     public void zoomToCurrentLoc() {
         LatLng currentLoc = new LatLng(currentLat, currentLng);
-        //mMap.addMarker(new MarkerOptions().position(currentLoc));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 15)); //zoom to street level
     }
 
@@ -134,8 +159,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void showPartyDetail(String hostName, String partyMessage) {
-        hostNameText.setText(hostName);
+        hostNameText.setText("Hosted by " + hostName);
         this.partyMessage.setText(partyMessage);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @Override
+    public void unhidePartyDetail() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
@@ -161,34 +191,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng partyLatLng = new LatLng(party.getLat(), party.getLng());
             Marker marker = mMap.addMarker(new MarkerOptions().position(partyLatLng));
             marker.setTag(party);   //tag the party to marker
+            setMarkerInactive(marker);
         }
     }
 
     @Override
     public void setMarkerInactive(Marker marker) {
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
     }
 
     @Override
     public void setMarkerActive(Marker marker) {
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
     }
 
     @OnClick(R.id.map_join_btn)
-    public void onViewClicked() {
+    public void onJoinClick() {
         presenter.onJoinClick();
+    }
+
+    @OnClick(R.id.map_get_direction_btn)
+    public void onGetDirectionClick() {
+        presenter.getDirection(currentLat, currentLng);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        presenter.onMarkerClick(marker);
+        if (marker.getTag() != null && marker.getTag() instanceof Party)
+            presenter.onMarkerClick(marker);
         return false;
     }
 
     @Override
-    public void goBackToMain(String partyKey) {
+    public void goBackToMain(String partyKey, String partyMessage) {
         Intent pickIntent = new Intent();
         pickIntent.putExtra("partyKey", partyKey);
+        pickIntent.putExtra("partyMessage", partyMessage);
         setResult(RESULT_OK, pickIntent);
         finish();
     }

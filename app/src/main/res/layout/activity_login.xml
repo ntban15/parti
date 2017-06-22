@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/login_activity_container"
+    android:background="@color/appBackground"
     tools:context="com.annguyen.android.parti.login.ui.LoginActivity">
 
     <TextView
@@ -70,7 +71,8 @@
         android:layout_below="@id/login_password_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        style="@style/Widget.AppCompat.Button.Colored"/>
+        android:backgroundTint="@color/button_main_color"
+        android:textColor="@color/textSecondaryColor"/>
 
     <Button
         android:id="@+id/sign_up_btn"
@@ -79,7 +81,7 @@
         android:text="@string/sign_up"
         android:layout_below="@id/sign_in_btn"
         android:layout_centerHorizontal="true"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
     <ProgressBar
         android:id="@+id/login_progress_bar"

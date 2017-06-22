@@ -3,8 +3,6 @@ package com.annguyen.android.parti.party.events;
 import com.annguyen.android.parti.entities.Message;
 import com.annguyen.android.parti.entities.User;
 
-import java.util.List;
-
 /**
  * Created by annguyen on 6/22/2017.
  */

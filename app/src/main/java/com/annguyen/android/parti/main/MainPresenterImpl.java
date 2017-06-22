@@ -67,7 +67,7 @@ public class MainPresenterImpl implements MainPresenter {
     void onHostEvent(HostEvent hostEvent) {
         switch (hostEvent.getResultCode()) {
             case HostEvent.HOST_SUCCESS:
-                mainView.goToParty(true, hostEvent.getPartyKey());
+                mainView.goToParty(true, hostEvent.getPartyKey(), hostEvent.getPartyMessage());
                 break;
             case HostEvent.HOST_FAIL:
                 mainView.onError(hostEvent.getErrMsg());

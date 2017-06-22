@@ -41,7 +41,8 @@
         android:text="@string/finish"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
     <ProgressBar
         android:id="@+id/qstr_progress_bar"

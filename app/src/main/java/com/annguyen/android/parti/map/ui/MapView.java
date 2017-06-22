@@ -2,6 +2,7 @@ package com.annguyen.android.parti.map.ui;
 
 import com.annguyen.android.parti.entities.Party;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
@@ -11,13 +12,19 @@ import java.util.List;
 
 public interface MapView {
 
+    void drawPolyline(PolylineOptions polylineOptions);
+
+    void removeLastPolyline();
+
     void zoomToCurrentLoc();
 
     void showProgressBar();
 
     void hideProgressBar();
 
-    void showPartyDetail(String hostName, String partyMessage);
+    void showPartyDetail(String userName, String partyMessage);
+
+    void unhidePartyDetail();
 
     void hidePartyDetail();
 
@@ -31,6 +38,6 @@ public interface MapView {
 
     void setMarkerActive(Marker marker);
 
-    void goBackToMain(String partyKey);
+    void goBackToMain(String partyKey, String partyMessage);
 
 }

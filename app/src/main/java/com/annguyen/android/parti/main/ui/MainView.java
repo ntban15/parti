@@ -12,7 +12,7 @@ public interface MainView {
     void onError(String msg);
     void getLocation();
     void goToMap(double lat, double lng);
-    void goToParty(boolean asHost, String partyKey);
+    void goToParty(boolean asHost, String partyKey, String partyMessage);
     boolean hasLocation();
     void goToLogin();
 }

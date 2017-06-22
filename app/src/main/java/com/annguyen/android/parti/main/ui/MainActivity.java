@@ -11,8 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1808;
     public static final int REQUEST_MAP_PICK = 1401;
 
-    @BindView(R.id.profile_avatar)
-    ImageView profileAvatar;
+    @BindView(R.id.main_image)
+    ImageView mainImage;
     @BindView(R.id.edit_group_message)
     EditText editGroupMessage;
     @BindView(R.id.edit_message_container)
@@ -208,10 +206,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void goToParty(boolean asHost, String partyKey) {
+    public void goToParty(boolean asHost, String partyKey, String partyMessage) {
         Intent goToPartyIntent = new Intent(this, PartyActivity.class);
         goToPartyIntent.putExtra("asHost", asHost);
         goToPartyIntent.putExtra("partyKey", partyKey);
+        goToPartyIntent.putExtra("partyMessage", partyMessage);
         startActivity(goToPartyIntent);
     }
 
@@ -237,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         if (requestCode == REQUEST_MAP_PICK) {
             if (resultCode == RESULT_OK) {
                 String partyKey = data.getStringExtra("partyKey");
-                goToParty(false, partyKey);
+                String partyMessage = data.getStringExtra("partyMessage");
+                goToParty(false, partyKey, partyMessage);
             }
         }
     }

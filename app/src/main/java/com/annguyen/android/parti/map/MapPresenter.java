@@ -1,6 +1,5 @@
 package com.annguyen.android.parti.map;
 
-import com.annguyen.android.parti.entities.Party;
 import com.google.android.gms.maps.model.Marker;
 
 /**
@@ -19,4 +18,6 @@ public interface MapPresenter {
     void onMarkerClick(Marker marker);
 
     void onJoinClick();
+
+    void getDirection(double currentLat, double currentLng);
 }

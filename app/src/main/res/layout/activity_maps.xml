@@ -18,28 +18,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:background="@color/appBackground"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/host_name_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                tools:text="An Nguyen" />
 
             <TextView
                 android:id="@+id/party_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 tools:text="Up for the night!"/>
+
+            <TextView
+                android:id="@+id/host_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="An Nguyen"/>
 
             <Button
                 android:id="@+id/map_join_btn"
@@ -47,7 +49,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/join_party"
                 android:layout_gravity="end"
-                android:layout_margin="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/textSecondaryColor"
+                android:backgroundTint="@color/button_main_color"/>
+
+            <Button
+                android:id="@+id/map_get_direction_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="@string/get_directions"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:textSize="12sp"
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>

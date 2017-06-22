@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +21,6 @@ import com.annguyen.android.parti.party.PartyPresenter;
 import com.annguyen.android.parti.party.PartyPresenterImpl;
 import com.annguyen.android.parti.party.adapters.MemberListAdapter;
 import com.annguyen.android.parti.party.adapters.MessagesAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +43,7 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
 
     private boolean asHost;
     private String partyKey;
+    private String partyMessage;
     private PartyPresenter presenter;
     private MemberListAdapter memberListAdapter;
     private MessagesAdapter messagesAdapter;
@@ -58,6 +56,7 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
         getIntentExtra();
         initInjection();
         initRecyclerView();
+        setTitle(partyMessage);
 
         //participate in party
         presenter.start();
@@ -77,6 +76,7 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
         Bundle extras = getIntent().getExtras();
         asHost = (boolean) extras.get("asHost");
         partyKey = (String) extras.get("partyKey");
+        partyMessage = (String) extras.get("partyMessage");
     }
 
     private void initInjection() {
@@ -172,5 +172,10 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.leaveGroup(asHost);
     }
 }

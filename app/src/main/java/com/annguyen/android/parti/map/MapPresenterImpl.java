@@ -1,6 +1,7 @@
 package com.annguyen.android.parti.map;
 
 import com.annguyen.android.parti.entities.Party;
+import com.annguyen.android.parti.map.events.GetDirectionEvent;
 import com.annguyen.android.parti.map.events.PartyMapEvent;
 import com.annguyen.android.parti.map.ui.MapView;
 import com.google.android.gms.maps.model.Marker;
@@ -18,6 +19,7 @@ public class MapPresenterImpl implements MapPresenter {
 
     private Marker lastMarker = null;
     private String lastPartyKey = null;
+    private String lastPartyMessage = null;
 
     private MapView mapView;
     private MapModel mapModel;
@@ -60,6 +62,7 @@ public class MapPresenterImpl implements MapPresenter {
             mapView.setMarkerInactive(lastMarker);
             lastMarker = null;
             lastPartyKey = null;
+            lastPartyMessage = null;
             return;
         }
 
@@ -71,17 +74,29 @@ public class MapPresenterImpl implements MapPresenter {
 
         Party party = (Party) marker.getTag();
         if (party != null)
-            mapView.showPartyDetail(party.getHost(), party.getMessage());
+            mapView.showPartyDetail(party.getName(), party.getMessage());
         mapView.setMarkerActive(marker);
 
         lastMarker = marker;
         lastPartyKey = party.getKey();
+        lastPartyMessage = party.getMessage();
     }
 
     @Override
     public void onJoinClick() {
         if (lastPartyKey != null) {
-            mapView.goBackToMain(lastPartyKey);
+            mapView.goBackToMain(lastPartyKey, lastPartyMessage);
+        }
+    }
+
+    @Override
+    public void getDirection(double currentLat, double currentLng) {
+        mapView.hidePartyDetail();
+        mapView.removeLastPolyline();
+        mapView.showProgressBar();
+        if (lastMarker != null) {
+            mapModel.getDirection(currentLat, currentLng,
+                    lastMarker.getPosition().latitude, lastMarker.getPosition().longitude);
         }
     }
 
@@ -94,6 +109,22 @@ public class MapPresenterImpl implements MapPresenter {
         }
         else {
             mapView.onError(partyMapEvent.getErrMsg());
+        }
+    }
+
+    @Subscribe
+    void onGetDirectionEvent(GetDirectionEvent getDirectionEvent) {
+        mapView.hideProgressBar();
+        mapView.unhidePartyDetail();
+        switch (getDirectionEvent.getEventCode()) {
+            case GetDirectionEvent.GET_DIR_SUCCESS: {
+                mapView.drawPolyline(getDirectionEvent.getPolylineOptions());
+                break;
+            }
+            case GetDirectionEvent.GET_DIR_FAIL: {
+                mapView.onError(getDirectionEvent.getErrMsg());
+                break;
+            }
         }
     }
 }

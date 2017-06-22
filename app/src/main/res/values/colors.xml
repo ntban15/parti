@@ -6,5 +6,6 @@
     <color name="textPrimaryColor">#000000</color>
     <color name="colorSecondary">#82f7ff</color>
     <color name="colorSecondaryDark">#0094cc</color>
-    <color name="textSecondaryColor">#000000</color>
+    <color name="textSecondaryColor">#FFFFFF</color>
+    <color name="appBackground">#FFDC01</color>
 </resources>
