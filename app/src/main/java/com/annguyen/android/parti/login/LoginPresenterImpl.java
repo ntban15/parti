@@ -40,6 +40,8 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void signIn(String email, String password) {
+        if (email.isEmpty() || password.isEmpty())
+            return;
         loginView.hideInput();
         loginView.showProgressBar();
         loginModel.signIn(email, password);
