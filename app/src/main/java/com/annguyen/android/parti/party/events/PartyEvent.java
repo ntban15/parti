@@ -12,31 +12,23 @@ import java.util.List;
 public class PartyEvent {
     public static final int REQUEST_USER_NAME_FAIL = 487;
     public static final int PARTICIPATE_FAIL = 1211;
-    public static final int GET_MEMBERS_FAIL = 999;
-    public static final int GET_MESSAGES_FAIL = 126;
     public static final int FINISH_PARTICIPATE = 101;
     public static final int NEW_MEMBER = 102;
     public static final int USER_REMOVED = 404;
     public static final int NEW_MESSAGE = 222;
     public static final int HOST_LEAVE_SUCCESS = 333;
     public static final int USER_LEAVE_SUCCESS = 444;
-    public static final int PARTY_REMOVE = 555;
+    public static final int PARTY_REMOVED = 555;
+    public static final int REQUEST_HOST_ID_FAIL = 666;
 
     private int eventCode;
-    private List<User> userList;
-    private List<Message> messageList;
     private User newUser;
     private String userKey;
+    private String hostKey;
     private Message newMessage;
 
     public PartyEvent(int eventCode) {
         this.eventCode = eventCode;
-    }
-
-    public PartyEvent(int eventCode, List<User> tmpUserList, List<Message> tmpMessageList) {
-        this.eventCode = eventCode;
-        this.userList = tmpUserList;
-        this.messageList = tmpMessageList;
     }
 
     public PartyEvent(int eventCode, User newUser) {
@@ -54,16 +46,14 @@ public class PartyEvent {
         this.newMessage = newMessage;
     }
 
+    public PartyEvent(int eventCode, String userKey, String hostKey) {
+        this.eventCode = eventCode;
+        this.userKey = userKey;
+        this.hostKey = hostKey;
+    }
+
     public int getEventCode() {
         return eventCode;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public List<Message> getMessageList() {
-        return messageList;
     }
 
     public User getNewUser() {
@@ -72,6 +62,10 @@ public class PartyEvent {
 
     public String getUserKey() {
         return userKey;
+    }
+
+    public String getHostKey() {
+        return hostKey;
     }
 
     public Message getNewMessage() {

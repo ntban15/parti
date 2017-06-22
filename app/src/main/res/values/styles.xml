@@ -6,11 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textPrimaryColor</item>
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/textPrimaryColor</item>
+        <item name="android:textColorSecondary">@color/textPrimaryColor</item>
     </style>
 
     <style name="AppTheme.NoAppBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoAppBar">
@@ -18,5 +25,7 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopUpTheme" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

@@ -42,6 +42,7 @@ public class PartyPresenterImpl implements PartyPresenter {
 
     @Override
     public void sendMsg(String msg) {
+        partyView.clearMsgInput();
         partyModel.sendMsg(msg);
     }
 
@@ -55,20 +56,9 @@ public class PartyPresenterImpl implements PartyPresenter {
         switch (partyEvent.getEventCode()) {
             case PartyEvent.FINISH_PARTICIPATE: {
                 partyView.setCurrentUserId(partyEvent.getUserKey());
+                partyView.setHostId(partyEvent.getHostKey());
                 partyView.hideProgressBar();
                 partyView.showInput();
-//                partyView.injectMembers(partyEvent.getUserList());
-//                partyView.injectMessages(partyEvent.getMessageList());
-                break;
-            }
-            case PartyEvent.GET_MEMBERS_FAIL: {
-                break;
-            }
-            case PartyEvent.GET_MESSAGES_FAIL: {
-                break;
-            }
-            case PartyEvent.HOST_LEAVE_SUCCESS: {
-                partyView.goToMain();
                 break;
             }
             case PartyEvent.NEW_MEMBER: {
@@ -79,22 +69,28 @@ public class PartyPresenterImpl implements PartyPresenter {
                 partyView.addNewMessage(partyEvent.getNewMessage());
                 break;
             }
-            case PartyEvent.PARTICIPATE_FAIL: {
+            case PartyEvent.USER_REMOVED: {
+                partyView.removeMember(partyEvent.getUserKey());
                 break;
             }
-            case PartyEvent.PARTY_REMOVE: {
+            case PartyEvent.PARTY_REMOVED: {
                 partyView.goToMain();
-                break;
-            }
-            case PartyEvent.REQUEST_USER_NAME_FAIL: {
                 break;
             }
             case PartyEvent.USER_LEAVE_SUCCESS: {
                 partyView.goToMain();
-
+                break;
             }
-            case PartyEvent.USER_REMOVED: {
-                partyView.removeMember(partyEvent.getUserKey());
+            case PartyEvent.HOST_LEAVE_SUCCESS: {
+                partyView.goToMain();
+                break;
+            }
+            case PartyEvent.REQUEST_USER_NAME_FAIL: {
+                partyView.goToMain();
+                break;
+            }
+            case PartyEvent.PARTICIPATE_FAIL: {
+                partyView.goToMain();
                 break;
             }
         }

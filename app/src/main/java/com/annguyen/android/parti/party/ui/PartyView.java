@@ -11,10 +11,6 @@ import java.util.List;
 
 public interface PartyView {
 
-    void injectMessages(List<Message> messageList);
-
-    void injectMembers(List<User> users);
-
     void addNewMessage(Message message);
 
     void addNewMember(User user);
@@ -32,4 +28,8 @@ public interface PartyView {
     void showProgressBar();
 
     void setCurrentUserId(String userKey);
+
+    void setHostId(String hostKey);
+
+    void clearMsgInput();
 }

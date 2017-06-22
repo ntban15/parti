@@ -43,8 +43,6 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
     RecyclerView memberMessages;
     @BindView(R.id.party_progress_bar)
     ProgressBar partyProgressBar;
-    @BindView(R.id.party_toolbar)
-    Toolbar partyToolbar;
 
     private boolean asHost;
     private String partyKey;
@@ -57,7 +55,6 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party);
         ButterKnife.bind(this);
-        setSupportActionBar(partyToolbar);
         getIntentExtra();
         initInjection();
         initRecyclerView();
@@ -85,23 +82,13 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
     private void initInjection() {
         presenter = new PartyPresenterImpl(this);
         memberListAdapter = new MemberListAdapter();
-        messagesAdapter = new MessagesAdapter(null, null);
+        messagesAdapter = new MessagesAdapter();
     }
 
     @Override
     protected void onDestroy() {
         presenter.stop();
         super.onDestroy();
-    }
-
-    @Override
-    public void injectMessages(List<Message> messageList) {
-        messagesAdapter.setMessageList(messageList);
-    }
-
-    @Override
-    public void injectMembers(List<User> users) {
-        memberListAdapter.setUserList(users);
     }
 
     @Override
@@ -150,7 +137,19 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
 
     @Override
     public void setCurrentUserId(String userKey) {
+        memberListAdapter.setUserKey(userKey);
         messagesAdapter.setUserKey(userKey);
+    }
+
+    @Override
+    public void setHostId(String hostKey) {
+        memberListAdapter.setHostKey(hostKey);
+        messagesAdapter.setHostKey(hostKey);
+    }
+
+    @Override
+    public void clearMsgInput() {
+        sendMessage.setText(null);
     }
 
     @OnClick(R.id.send_btn)

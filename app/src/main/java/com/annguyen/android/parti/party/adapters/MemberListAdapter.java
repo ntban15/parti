@@ -1,5 +1,7 @@
 package com.annguyen.android.parti.party.adapters;
 
+import android.content.Context;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +24,10 @@ import butterknife.ButterKnife;
 
 public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.CustomViewHolder>{
 
-    List<User> userList;
+    private String hostKey;
+    private String userKey;
+    private List<User> userList;
+    private Context context;
 
     public MemberListAdapter() {
         userList = new ArrayList<>();
@@ -30,6 +35,9 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Cu
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        context = parent.getContext();
+
         View memberListView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.member_bubble, parent, false);
 
@@ -38,8 +46,22 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Cu
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        String userName = userList.get(position).getName();
-        holder.memberName.setText(userName);
+        User user = userList.get(position);
+        holder.memberName.setText(user.getName());
+
+        if (user.getKey().equals(userKey)) {
+            holder.memberContainer.setBackgroundTintList(
+                    AppCompatResources.getColorStateList(context, R.color.bubble_owner_color));
+            holder.memberName.setTextColor(
+                    AppCompatResources.getColorStateList(context, R.color.text_owner_color));
+        }
+
+        if (user.getKey().equals(hostKey)) {
+            holder.memberContainer.setBackgroundTintList(
+                    AppCompatResources.getColorStateList(context, R.color.bubble_host_color));
+            holder.memberName.setTextColor(
+                    AppCompatResources.getColorStateList(context, R.color.text_host_color));
+        }
     }
 
     @Override
@@ -78,5 +100,13 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Cu
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setHostKey(String hostKey) {
+        this.hostKey = hostKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
     }
 }

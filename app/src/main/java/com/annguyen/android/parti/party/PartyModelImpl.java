@@ -17,9 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,13 +29,11 @@ public class PartyModelImpl implements PartyModel {
     private String currentPartyKey;
     private String currentUserName;
     private String currentUserId;
+    private String currentHostId;
 
     private ChildEventListener membersListener;
     private ChildEventListener messagesListener;
     private ChildEventListener partiesListener;
-
-//    private List<Message> tmpMessageList;
-//    private List<User> tmpUserList;
 
     EventBus eventBus;
     private FirebaseAuth auth;
@@ -47,8 +43,6 @@ public class PartyModelImpl implements PartyModel {
         eventBus = EventBus.getDefault();
         auth = FirebaseAuth.getInstance();
         dataRef = FirebaseDatabase.getInstance().getReference();
-//        tmpMessageList = new ArrayList<>();
-//        tmpUserList = new ArrayList<>();
     }
 
     @Override
@@ -65,7 +59,7 @@ public class PartyModelImpl implements PartyModel {
                 String userName = (String) dataSnapshot.getValue();
                 if (userName != null) {
                     currentUserName = userName;
-                    participateWithName();
+                    getHostId();
                 }
                 else {
                     eventBus.post(new PartyEvent(PartyEvent.REQUEST_USER_NAME_FAIL));
@@ -75,6 +69,28 @@ public class PartyModelImpl implements PartyModel {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 eventBus.post(new PartyEvent(PartyEvent.REQUEST_USER_NAME_FAIL));
+            }
+        });
+    }
+
+    private void getHostId() {
+        dataRef.child("parties").child(currentPartyKey).child("host")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String hostId = (String) dataSnapshot.getValue();
+                if (hostId != null) {
+                    currentHostId = hostId;
+                    participateWithName();
+                }
+                else {
+                    eventBus.post(new PartyEvent(PartyEvent.REQUEST_HOST_ID_FAIL));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                eventBus.post(new PartyEvent(PartyEvent.REQUEST_HOST_ID_FAIL));
             }
         });
     }
@@ -89,7 +105,8 @@ public class PartyModelImpl implements PartyModel {
                     listenToMembers();
                     listenToMessages();
                     listenToPartyRemoval();
-                    eventBus.post(new PartyEvent(PartyEvent.FINISH_PARTICIPATE, currentUserId));
+                    eventBus.post(new PartyEvent(PartyEvent.FINISH_PARTICIPATE,
+                            currentUserId, currentHostId));
                 }
                 else {
                     eventBus.post(new PartyEvent(PartyEvent.PARTICIPATE_FAIL));
@@ -97,47 +114,6 @@ public class PartyModelImpl implements PartyModel {
             }
         });
     }
-
-//    private void getMemberList() {
-//        dataRef.child("members").child(currentPartyKey)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot member : dataSnapshot.getChildren()) {
-//                    User memUser = new User((String) member.getValue());
-//                    memUser.setKey(member.getKey());
-//                    tmpUserList.add(memUser);
-//                }
-//                getMessageList();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                eventBus.post(new PartyEvent(PartyEvent.GET_MEMBERS_FAIL));
-//            }
-//        });
-//    }
-//
-//    private void getMessageList() {
-//        dataRef.child("messages").child(currentPartyKey)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot msgSnap : dataSnapshot.getChildren()) {
-//                            Message message = msgSnap.getValue(Message.class);
-//                            if (message != null) {
-//                                message.setMsgKey(msgSnap.getKey());
-//                            }
-//                            tmpMessageList.add(message);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        eventBus.post(new PartyEvent(PartyEvent.GET_MESSAGES_FAIL));
-//                    }
-//                });
-//    }
 
     @Override
     public void sendMsg(String msg) {
@@ -281,7 +257,7 @@ public class PartyModelImpl implements PartyModel {
                     stopListenToMembers();
                     stopListenToMessages();
                     stopListenToPartyRemoval();
-                    eventBus.post(new PartyEvent(PartyEvent.PARTY_REMOVE));
+                    eventBus.post(new PartyEvent(PartyEvent.PARTY_REMOVED));
                 }
             }
 

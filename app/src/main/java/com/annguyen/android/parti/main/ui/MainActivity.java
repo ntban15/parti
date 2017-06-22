@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1808;
     public static final int REQUEST_MAP_PICK = 1401;
 
-    @BindView(R.id.main_toolbar)
-    Toolbar mainToolbar;
     @BindView(R.id.profile_avatar)
     ImageView profileAvatar;
     @BindView(R.id.edit_group_message)
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         ButterKnife.bind(this);
         initInjection();
         presenter.start();
-        setSupportActionBar(mainToolbar);
 
         //check for location permission first then get current location
         getLocation();
