@@ -10,12 +10,14 @@ This application is developed under 72 hours as an assignment for my school-base
 
 ## Screenshots
 
-<img src="https://i.imgur.com/5sCBkRM.png" style="width: 150px;"/>
-<img src="https://i.imgur.com/BwjXqaO.png" style="width: 150px;"/>
-<img src="https://i.imgur.com/MLDtuLV.png" style="width: 150px;"/>
-<img src="https://i.imgur.com/rc2Lowg.png" style="width: 150px;"/>
-<img src="https://i.imgur.com/ZPclDHg.png" style="width: 150px;"/>
-<img src="https://i.imgur.com/XqDmHHl.png" style="width: 150px;"/>
+<p display="block" margin="auto">
+    <img src="https://i.imgur.com/5sCBkRM.png" style="width: 150px;"/>
+    <img src="https://i.imgur.com/BwjXqaO.png" style="width: 150px;"/>
+    <img src="https://i.imgur.com/MLDtuLV.png" style="width: 150px;"/>
+    <img src="https://i.imgur.com/rc2Lowg.png" style="width: 150px;"/>
+    <img src="https://i.imgur.com/ZPclDHg.png" style="width: 150px;"/>
+    <img src="https://i.imgur.com/XqDmHHl.png" style="width: 150px;"/>
+</p>
 
 ## Features
 
