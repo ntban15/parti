@@ -94,6 +94,8 @@ public class PartyActivity extends AppCompatActivity implements PartyView {
     @Override
     public void addNewMessage(Message message) {
         messagesAdapter.addMessage(message);
+        //smooth scroll to latest message
+        memberMessages.smoothScrollToPosition(messagesAdapter.getItemCount() - 1);
     }
 
     @Override
